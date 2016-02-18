@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012, 2014 IBM Corporation and others.
+ * Copyright (c) 2012, 2016 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -202,6 +202,17 @@ public class DTOBuilder {
 		return dto;
 	}
 
+	public static FrameworkWiringDTO newFrameworkWiringDTO(Collection<BundleWiring> allWirings) {
+		DTOBuilder builder = new DTOBuilder();
+		for (BundleWiring wiring : allWirings) {
+			builder.getBundleWiringNodeDTO(wiring);
+		}
+		FrameworkWiringDTO dto = new FrameworkWiringDTO();
+		dto.wirings = new HashSet<BundleWiringDTO.NodeDTO>(builder.wiringnodes.values());
+		dto.resources = new HashSet<BundleRevisionDTO>(builder.resources.values());
+		return dto;
+	}
+
 	private BundleWiringDTO getBundleWiringDTO(BundleWiring wiring) {
 		if (wiring == null) {
 			return null;
@@ -378,12 +389,7 @@ public class DTOBuilder {
 	}
 
 	private static Object mapValue(Object v) {
-		if ((v == null)
-				|| v instanceof Number
-				|| v instanceof Boolean
-				|| v instanceof Character
-				|| v instanceof String
-				|| v instanceof DTO) {
+		if ((v == null) || v instanceof Number || v instanceof Boolean || v instanceof Character || v instanceof String || v instanceof DTO) {
 			return v;
 		}
 		if (v instanceof Map) {
@@ -423,14 +429,7 @@ public class DTOBuilder {
 	}
 
 	private static Class<?> mapComponentType(Class<?> componentType) {
-		if (componentType.isPrimitive()
-				|| componentType.isArray()
-				|| Object.class.equals(componentType)
-				|| Number.class.isAssignableFrom(componentType)
-				|| Boolean.class.isAssignableFrom(componentType)
-				|| Character.class.isAssignableFrom(componentType)
-				|| String.class.isAssignableFrom(componentType)
-				|| DTO.class.isAssignableFrom(componentType)) {
+		if (componentType.isPrimitive() || componentType.isArray() || Object.class.equals(componentType) || Number.class.isAssignableFrom(componentType) || Boolean.class.isAssignableFrom(componentType) || Character.class.isAssignableFrom(componentType) || String.class.isAssignableFrom(componentType) || DTO.class.isAssignableFrom(componentType)) {
 			return componentType;
 		}
 		if (Map.class.isAssignableFrom(componentType)) {
