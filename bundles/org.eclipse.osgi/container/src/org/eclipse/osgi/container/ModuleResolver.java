@@ -477,7 +477,7 @@ final class ModuleResolver {
 		// Just a marker exception to break out of extra long resolution
 	}
 
-	class ResolveProcess extends ResolveContext implements Comparator<Capability>, FelixResolveContext, Executor {
+	class ResolveProcess extends ResolveContext implements Comparator<Capability>, Executor {
 
 		class ResolveLogger extends Logger {
 			private Map<Resource, ResolutionException> errors = null;
@@ -600,7 +600,9 @@ final class ModuleResolver {
 
 		@Override
 		public List<Capability> findProviders(Requirement requirement) {
-			return findProviders0(requirement, requirement);
+			Requirement origReq = requirement;
+			Requirement lookupReq = dynamicReq == null || dynamicReq.getOriginal() != requirement ? requirement : dynamicReq;
+			return findProviders0(origReq, lookupReq);
 		}
 
 		private List<Capability> findProviders0(Requirement origReq, Requirement lookupReq) {
@@ -846,7 +848,7 @@ final class ModuleResolver {
 		}
 
 		@Override
-		public Collection<Resource> getOndemandResources(Resource host) {
+		public Collection<Resource> findRelatedResources(Resource host) {
 			List<ModuleCapability> hostCaps = ((ModuleRevision) host).getModuleCapabilities(HostNamespace.HOST_NAMESPACE);
 			if (hostCaps.isEmpty()) {
 				return Collections.emptyList();
@@ -1354,8 +1356,7 @@ final class ModuleResolver {
 		}
 
 		private Map<Resource, List<Wire>> resolveDynamic() throws ResolutionException {
-			List<Capability> dynamicMatches = findProviders0(dynamicReq.getOriginal(), dynamicReq);
-			return new ResolverImpl(new Logger(0), null).resolve(this, dynamicReq.getRevision(), dynamicReq.getOriginal(), dynamicMatches);
+			return new ResolverImpl(new Logger(0), null).resolveDynamic(this, dynamicReq.getRevision().getWiring(), dynamicReq.getOriginal());
 		}
 
 		private void filterResolvable() {
