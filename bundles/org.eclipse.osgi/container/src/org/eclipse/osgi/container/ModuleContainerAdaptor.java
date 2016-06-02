@@ -13,6 +13,7 @@ package org.eclipse.osgi.container;
 import java.io.DataInputStream;
 import java.util.EnumSet;
 import java.util.concurrent.Executor;
+import java.util.concurrent.ScheduledExecutorService;
 import org.eclipse.osgi.container.Module.Settings;
 import org.eclipse.osgi.service.debug.DebugOptions;
 import org.osgi.framework.Constants;
@@ -293,5 +294,15 @@ public abstract class ModuleContainerAdaptor {
 				command.run();
 			}
 		};
+	}
+
+	/**
+	 * Returns the scheduled executor that may be used by the
+	 * container to schedule background tasks.
+	 * @return the scheduled executor, or null if background tasks are not supported
+	 * @since 3.12
+	 */
+	public ScheduledExecutorService getScheduledExecutor() {
+		return null;
 	}
 }
