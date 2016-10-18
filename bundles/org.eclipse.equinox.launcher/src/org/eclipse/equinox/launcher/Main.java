@@ -754,9 +754,9 @@ public class Main {
 	private void createLayer(URLClassLoader loader) {
 		Set<Module> bootModules = Layer.boot().modules();
 
-		Builder builder = new Builder(SYSTEM_BUNDLE_NAME);
+		Builder builder = ModuleDescriptor.module(SYSTEM_BUNDLE_NAME);
 		for (Module module : bootModules) {
-			builder.requires(Modifier.PUBLIC, module.getName());
+			builder.requires(Collections.singleton(Modifier.TRANSITIVE), module.getName());
 		}
 		for (String pkg : systemBundlePackages) {
 			builder.exports(pkg);
