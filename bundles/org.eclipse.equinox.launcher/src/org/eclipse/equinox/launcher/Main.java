@@ -18,7 +18,6 @@ package org.eclipse.equinox.launcher;
 import java.io.*;
 import java.lang.module.*;
 import java.lang.module.ModuleDescriptor.Builder;
-import java.lang.module.ModuleDescriptor.Requires.Modifier;
 import java.lang.reflect.*;
 import java.net.*;
 import java.security.*;
@@ -749,14 +748,14 @@ public class Main {
 			"osgi.jpms.layer" //$NON-NLS-1$
 	});
 
-	static final String SYSTEM_BUNDLE_NAME = "system.bundle";
+	static final String SYSTEM_BUNDLE_NAME = "system.bundle"; //$NON-NLS-1$
 
 	private void createLayer(URLClassLoader loader) {
 		Set<Module> bootModules = Layer.boot().modules();
 
-		Builder builder = ModuleDescriptor.module(SYSTEM_BUNDLE_NAME);
+		Builder builder = ModuleDescriptor.openModule(SYSTEM_BUNDLE_NAME);
 		for (Module module : bootModules) {
-			builder.requires(Collections.singleton(Modifier.TRANSITIVE), module.getName());
+			builder.requires(module.getName());
 		}
 		for (String pkg : systemBundlePackages) {
 			builder.exports(pkg);
@@ -2964,6 +2963,11 @@ public class Main {
 					return libFile.getAbsolutePath();
 			}
 			return super.findLibrary(name);
+		}
+
+		// preparing for Java 9
+		protected URL findResource(String moduleName, String name) {
+			return findResource(name);
 		}
 
 		/**
