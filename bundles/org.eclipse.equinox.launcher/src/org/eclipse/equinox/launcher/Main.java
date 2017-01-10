@@ -760,9 +760,14 @@ public class Main {
 		for (String pkg : systemBundlePackages) {
 			builder.exports(pkg);
 		}
-		final ModuleReference systemModuleRef = new ModuleReference(builder.build(), null, () -> {
-			return null;
-		});
+		final ModuleReference systemModuleRef = new ModuleReference(builder.build(), null) {
+
+			@Override
+			public ModuleReader open() throws IOException {
+				return null;
+			}
+
+		};
 
 		ModuleFinder finder = new ModuleFinder() {
 			@Override
