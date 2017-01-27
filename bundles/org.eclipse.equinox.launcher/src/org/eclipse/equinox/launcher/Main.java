@@ -753,7 +753,7 @@ public class Main {
 	private void createLayer(URLClassLoader loader) {
 		Set<Module> bootModules = Layer.boot().modules();
 
-		Builder builder = ModuleDescriptor.openModule(SYSTEM_BUNDLE_NAME);
+		Builder builder = ModuleDescriptor.newOpenModule(SYSTEM_BUNDLE_NAME);
 		for (Module module : bootModules) {
 			builder.requires(module.getName());
 		}
@@ -784,7 +784,7 @@ public class Main {
 			}
 		};
 
-		Configuration config = Layer.boot().configuration().resolveRequires(finder, ModuleFinder.of(), Set.of(SYSTEM_BUNDLE_NAME));
+		Configuration config = Layer.boot().configuration().resolve(finder, ModuleFinder.of(), Set.of(SYSTEM_BUNDLE_NAME));
 		Layer.boot().defineModules(config, (name) -> {
 			return loader;
 		});
