@@ -1,5 +1,7 @@
 package org.eclipse.equinox.internal.log.stream;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.CopyOnWriteArraySet;
@@ -36,6 +38,8 @@ public class LogStreamFactoryImpl implements BundleActivator, LogStreamProvider,
 	BundleContext context;
 	ReentrantLock eventProducerLock = new ReentrantLock();
 	
+	
+	private List<PushStream<LogEntry>> pushStreams = new ArrayList<>();
 	/*
 	 * (non-Javadoc)
 	 * @see org.osgi.framework.BundleActivator#start(org.osgi.framework.BundleContext)
@@ -44,6 +48,7 @@ public class LogStreamFactoryImpl implements BundleActivator, LogStreamProvider,
 		this.context = context;
 		logReaderService = new ServiceTracker<>(context, LogReaderService.class, this);
 		logReaderService.open();
+		context.registerService(LogStreamProvider.class.getName(), this, null);
 	}
 
 	/*

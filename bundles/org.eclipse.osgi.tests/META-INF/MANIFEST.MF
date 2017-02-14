@@ -12,7 +12,10 @@ Require-Bundle:
  org.junit
 Eclipse-LazyStart: true
 Bundle-Activator: org.eclipse.osgi.tests.OSGiTestsActivator
-Import-Package: org.osgi.service.event; resolution:="optional"
+Import-Package: org.osgi.service.event;resolution:=optional,
+ org.osgi.service.log.stream,
+ org.osgi.util.pushstream;version="1.0.0",
+ org.osgi.util.promise
 Export-Package: org.eclipse.osgi.tests.bundles,
  org.eclipse.osgi.tests.appadmin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

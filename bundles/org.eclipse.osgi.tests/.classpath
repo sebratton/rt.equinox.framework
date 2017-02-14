@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" output="bundle_tests/test" path="bundles_src/test"/>
@@ -135,5 +135,8 @@
 	<classpathentry kind="src" output="bundle_tests/test.dynamicimport" path="bundles_src/test.dynamicimport"/>
 	<classpathentry kind="src" output="bundle_tests/test.bug490902.a" path="bundles_src/test.bug490902.a"/>
 	<classpathentry kind="src" output="bundle_tests/test.bug490902.b" path="bundles_src/test.bug490902.b"/>
+	<classpathentry kind="lib" path="C:/OSGI/logservice_work/org.osgi.util.function.jar"/>
+	<classpathentry kind="lib" path="C:/OSGI/logservice_work/org.osgi.util.promise.jar"/>
+	<classpathentry kind="lib" path="C:/OSGI/logservice_work/org.osgi.util.pushstream.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
